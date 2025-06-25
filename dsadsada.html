@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Individual Project: Book Data Visualization</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Individual Project: Book Data Visualization</h1>
+    <p><strong>Author:</strong> Sidney Glover<br>
+    <strong>Affiliation:</strong> Kennesaw State University<br>
+    <strong>Course:</strong> IT 3883 Web Development<br>
+    <strong>Instructor:</strong> Dr.Li</p>
+
+    <p>This project involves working with book data in JSON format from the Google Books API and visualizing the data using web technologies like HTML, CSS, JavaScript, and jQuery.</p>
+
+    <h2>Course Info</h2>
+    <p>Course Site: <a href="http://ccse.kennesaw.edu/it" target="_blank">http://ccse.kennesaw.edu/it</a></p>
+
+    <h2>Project Table of Contents</h2>
+    <table>
+      <thead>
+        <tr><th>Milestone</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="milestone1.html">Milestone 1</a></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><a href="milestone2.html">Milestone 2</a></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><a href="milestone3.html">Milestone 3</a></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><a href="milestone4.html">Milestone 4</a></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Sample Book Data Display</h2>
+    <div class="single-book" id="single-book"></div>
+    <div class="book-list" id="book-list"></div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    // Load single book JSON
+    $.getJSON('google-books-book.json', function(data) {
+      const book = data.volumeInfo;
+      $('#single-book').html(`
+        <h3>Single Book Example</h3>
+        <p><strong>Title:</strong> ${book.title}</p>
+        <p><strong>Authors:</strong> ${book.authors?.join(', ')}</p>
+        <p><strong>Publisher:</strong> ${book.publisher}</p>
+        <p><strong>Published Date:</strong> ${book.publishedDate}</p>
+        <p><strong>Description:</strong> ${book.description?.substring(0, 200)}...</p>
+      `);
+    });
+
+    // Load list of books JSON
+    $.getJSON('google-books-search.json', function(data) {
+      const books = data.items;
+      let output = '<h3>Book List Example</h3>';
+      books.forEach(item => {
+        const info = item.volumeInfo;
+        output += `
+          <div class="book">
+            <p><strong>Title:</strong> ${info.title}</p>
+            <p><strong>Authors:</strong> ${info.authors?.join(', ') || 'N/A'}</p>
+            <p><strong>Publisher:</strong> ${info.publisher || 'N/A'}</p>
+            <p><strong>Published Date:</strong> ${info.publishedDate || 'N/A'}</p>
+          </div>
+        `;
+      });
+      $('#book-list').html(output);
+    });
+  </script>
+</body>
+</html>
